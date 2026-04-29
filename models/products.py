@@ -8,6 +8,8 @@ class Products(db.Model):
     precio = db.Column(db.Float, nullable=False)
     descripcion = db.Column(db.String(255), nullable=True)
 
+    client_id = db.Column(db.Integer, db.ForeignKey('client.id'), nullable=True)  
+          
     def __init__(self, nombre, precio, descripcion=None):
         self.nombre = nombre
         self.precio = precio
