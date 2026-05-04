@@ -2,6 +2,7 @@ from flask import Flask
 from routes.products_routes import producto_bp
 from routes.vehiculo_routes import vehiculo
 from routes.client_routes import client_bp
+from routes.medicamento_routes import medicamento_bp
 from config.config import DATABASE_CONNECTION_URI
 from models.db import db
 
@@ -40,6 +41,7 @@ def api_login():
 app.register_blueprint(producto_bp)
 app.register_blueprint(vehiculo)
 app.register_blueprint(client_bp)
+app.register_blueprint(medicamento_bp)
 
 # Configuración de la base de datos
 app.config["SQLALCHEMY_DATABASE_URI"]= DATABASE_CONNECTION_URI
@@ -51,6 +53,7 @@ with app.app_context():
     from models.products import Products
     from models.vehiculo import Vehiculo 
     from models.client import Client
+    from models.medicamento import Medicamento
     # db.drop_all()
     db.create_all()
 

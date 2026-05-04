@@ -1,35 +1,24 @@
-from flask import Blueprint, jsonify
-
-from models.products import Products
+from flask import Blueprint, jsonify, request
+from controllers.products_controller import *
 
 producto_bp = Blueprint('producto', __name__)
 
-# Rutas relacionadas con productos CRUD
 
-# Ruta para listar productos Read
-@producto_bp.route('/productos')
+@producto_bp.route('/productos', methods=['GET'])
 def listar_productos():
-    products = Products.query.all()
-    return jsonify([product.serialize() for product in products])
+    return jsonify(get_all_products())
 
-@producto_bp.route('/productos/<int:producto_id>')
-def obtener_producto(producto_id):
-    product = Products.query.get(producto_id)
-    if product:
-        return jsonify(product.serialize())
-    return jsonify({'error': 'Producto no encontrado'}), 404    
 
-# Ruta para crear un nuevo producto Create
 @producto_bp.route('/productos', methods=['POST'])
 def crear_producto():
-    return 'Producto creado exitosamente.'
+    data = request.json
+    product = create_product(data)
+    return jsonify(product), 201
 
-# Ruta para actualizar un producto Update
-@producto_bp.route('/productos/<int:producto_id>', methods=['PUT'])
-def actualizar_producto(producto_id):
-    return f'Producto con ID: {producto_id} actualizado exitosamente.'
 
-# Ruta para eliminar un producto Delete
 @producto_bp.route('/productos/<int:producto_id>', methods=['DELETE'])
 def eliminar_producto(producto_id):
-    return f'Producto con ID: {producto_id} eliminado exitosamente.'
+    success = delete_product(producto_id)
+    if success:
+        return jsonify({'mensaje': 'Producto eliminado'})
+    return jsonify({'error': 'Producto no encontrado'}), 404
