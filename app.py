@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, render_template
 from routes.products_routes import producto_bp
 from routes.vehiculo_routes import vehiculo
 from routes.client_routes import client_bp
@@ -14,7 +14,33 @@ app = Flask(__name__)
 
 @app.route('/')
 def hello_world():
-    return 'Hello, World!!!'
+  nombre: str = "Pepe"
+  edad: int = 30
+  return render_template('index.html', nombre=nombre, edad=edad)
+
+@app.route("/usuarios")
+def usuarios():
+    lista_usuarios = [
+        "Ana",
+        "Juan",
+        "Pietro",
+        "Lucas"
+    ]
+    return render_template(
+        "usuarios.html",
+        usuarios=lista_usuarios
+    )
+
+@app.route("/admin")
+def admin():
+    es_admin = False
+
+    return render_template(
+        "admin.html",
+        admin=es_admin
+    )
+
+
 
 @app.route('/saludo/<nombre>')
 def saludo(nombre):

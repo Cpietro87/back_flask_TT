@@ -12,8 +12,8 @@ def listar_productos():
 @producto_bp.route('/productos', methods=['POST'])
 def crear_producto():
     data = request.json
-    product = create_product(data)
-    return jsonify(product), 201
+    create_product(data)
+    return "Producto creado", 201
 
 
 @producto_bp.route('/productos/<int:producto_id>', methods=['DELETE'])

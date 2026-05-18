@@ -1,7 +1,6 @@
 from models.products import Products
 from models.db import db
 
-from models.products import Products
 
 def get_all_products():
     return [product.serialize() for product in Products.query.all()]
