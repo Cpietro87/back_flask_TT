@@ -16,9 +16,20 @@ def crear_producto():
     return "Producto creado", 201
 
 
+
 @producto_bp.route('/productos/<int:producto_id>', methods=['DELETE'])
 def eliminar_producto(producto_id):
     success = delete_product(producto_id)
     if success:
         return jsonify({'mensaje': 'Producto eliminado'})
+    return jsonify({'error': 'Producto no encontrado'}), 404
+
+
+
+@producto_bp.route('/productos/<int:producto_id>', methods=['PUT'])
+def actualizar_producto(producto_id):
+    data = request.json
+    product = update_product(producto_id, data)
+    if product:
+        return jsonify(product)
     return jsonify({'error': 'Producto no encontrado'}), 404
